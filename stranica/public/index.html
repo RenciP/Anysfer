@@ -30,7 +30,7 @@
         </div>
         <div class="row">
             <div class="col-sm-1">
-                <input type="text" placeholder="4N9SF3R" class="form-control-lg">
+                <input type="text" placeholder="4N9SF3R" class="form-control-lg" id="passcode">
             </div>
         </div>
         <div class="row">
@@ -39,12 +39,16 @@
                 can share with anyone or just use on your other device to download the files. No sign ins, no passwords, it's just that easy!
             </p>
         </div>
-        <div class="row">
+        <div class="form-row">
+            <form class="form file-upload-form">
             <div class="col-sm-12">
-            <button id="upload-btn">Upload <span>UPL</span></button>
+            <label for="data-input" class="form-label">Upload <span>UPL</span></label>
+            <input type="file" id="data-input">
+            <button type="submit">SUBMIT</button>
             </div>
-            <p class="bolded-letters">Upload files to get Anysfer# to share</p>
+            </form>
         </div>
+        <p class="bolded-letters">Upload files to get Anysfer# to share</p>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
