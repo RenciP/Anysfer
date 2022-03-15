@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./modal.css">
     <title>Anysfer</title>
 </head>
 <body>
@@ -20,17 +21,18 @@
             <p class="bolded-letters">Anysfer is an open source platform.</p>
             <p class="normal-letters">The fastest way to share your files of any format to multiple devices. The tool is here and open source.</p>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-               <button id="download-btn">Download <span>DWN</span></button> 
-            </div>
-        </div>
+        
         <div class="row">
             <p class="bolded-letters">Enter Anysfer code to access files in the cloud:</p>
         </div>
         <div class="row">
             <div class="col-sm-1">
                 <input type="text" placeholder="4N9SF3R" class="form-control-lg" id="passcode">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+               <button id="download-btn">Download <span>DWN</span></button> 
             </div>
         </div>
         <div class="row">
@@ -49,6 +51,16 @@
             </form>
         </div>
         <p class="bolded-letters">Upload files to get Anysfer# to share</p>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Your code for downloading the file is <span id="modal-code" style="font-weight: bold;"></span></p>
+            </div>
+        
+        </div>
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
