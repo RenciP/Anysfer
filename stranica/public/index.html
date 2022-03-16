@@ -42,22 +42,26 @@
             </p>
         </div>
         <div class="form-row">
-            <form class="form file-upload-form">
-            <div class="col-sm-12">
-            <label for="data-input" class="form-label">Upload <span>UPL</span></label>
-            <input type="file" id="data-input">
-            <button type="submit">SUBMIT</button>
-            </div>
+            <form id="uploadForm">
+            <input type="file" name="filesForUpload" id="data-input" multiple />
+            <input type="submit" value="Upload" name="submit">
             </form>
         </div>
-        <p class="bolded-letters">Upload files to get Anysfer# to share</p>
+        <div class="row">
+            <p class="bolded-letters">Upload files to get Anysfer# to share</p>
+        </div>
+        
         <!-- The Modal -->
         <div id="myModal" class="modal">
 
             <!-- Modal content -->
             <div class="modal-content">
             <span class="close">&times;</span>
-            <p>Your code for downloading the file is <span id="modal-code" style="font-weight: bold;"></span></p>
+            <p id="codetext" style="display: none;">Your code for downloading the file is <span id="modal-code" style="font-weight: bold;"></span></p>
+            <div id="download-items-list" style="display: none">
+                <p>Files that can be downloaded:</p>
+                <p id="items-files"></p>
+            </div>
             </div>
         
         </div>
