@@ -3,6 +3,8 @@ const fs = require('fs')
 const homeDir = require('../working-dir')
 const passGenerator = require('generate-password')
 const multer = require('multer')
+const archiver = require('archiver')
+const mv = require('mv')
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -37,6 +39,7 @@ const fileUploading = async (req, res) => {
             console.log(err)
             res.end('An error occured')
         }
+        zipFolder(passcode)
         res.end(passcode)
     })
     
@@ -80,6 +83,32 @@ const fileDownload = async (req, res) => {
             res.end()
         }
     })
+}
+
+const zipFolder = async (passcode) => {
+    const source_dir = homeDir + '/uploads/' + passcode + '/'
+    const archivePath = homeDir + '/tmp/' + passcode + '.zip'
+    var output = fs.createWriteStream(archivePath);
+    var archive = archiver('zip');
+    output.on('close', function () {
+
+        console.log('archiver has been finalized and the output file descriptor has closed.')
+
+        mv(archivePath, source_dir + 'allfiles.zip', (err) =>{
+            if(err){
+                console.log(err + 'Evo errora')
+            }
+            
+        })
+
+    });
+    archive.on('error', function(err){
+        throw err;
+    })
+    archive.pipe(output)
+    archive.directory(source_dir, false)
+
+    archive.finalize()   
 }
 
 module.exports = {fileUploading, fileDownload, getFilePath}
