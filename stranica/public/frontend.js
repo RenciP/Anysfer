@@ -1,9 +1,10 @@
 const uploadUrl = '/api/upload'
 const downloadUrl = '/api/download'
 
+var uploadName = document.getElementById('upload-name')
+var uploadComment = document.getElementById('upload-comment')
 var uploadItemsForm = document.getElementById('upload-items-form')
 var downloadItemsList = document.getElementById('download-items-list')
-var itemsFiles = document.getElementById('items-files')
 var codetext = document.getElementById('codetext')
 var modal = document.getElementById("myModal");
 var span = document.getElementsByClassName("close")[0];
@@ -44,8 +45,9 @@ fileUploadDOM.addEventListener('submit', (e) => {
   for (let i = 0; i < nrOfFiles; i++) {
     formData.append('filesForUpload', selectFileDOM.files[i])
   }
-  
-  console.log(formData.getAll('filesForUpload'));
+
+  formData.append('uploadName', uploadName.value)
+  formData.append('uploadComment', uploadComment.value)
 
   uploadFile(formData)
 
@@ -72,15 +74,24 @@ function getListOfFiles(passcode){
   .then((res) => {
     modal.style.display = 'block'
     downloadItemsList.style.display = 'block'
+    var itemsFiles = document.getElementById('items-files')
     for(const item in res.data){
-      const breakLineEl = document.createElement('br')
       const fileName = res.data[item].split('/')
+      const breakLineEl = document.createElement('br')
       const linkElement = document.createElement('a')
+      if(fileName[1] === 'allfiles.zip'){
+        linkElement.href = downloadUrl + '/' + res.data[item]
+        linkElement.innerText = 'Download all files in ZIP format'
+        linkElement.className = 'btn btn-secondary'
+        downloadItemsList.append(breakLineEl)
+        downloadItemsList.append(linkElement)
+        continue
+      }
       linkElement.href = downloadUrl + '/' + res.data[item]
       linkElement.innerText = fileName[1]
       linkElement.className = 'btn btn-primary'
-      downloadItemsList.append(linkElement)
-      downloadItemsList.append(breakLineEl)
+      itemsFiles.append(linkElement)
+      itemsFiles.append(breakLineEl)
     }
   })
   .catch((error) =>{
@@ -91,22 +102,22 @@ function getListOfFiles(passcode){
   })
 }
 
-// When the user clicks on <span> (x), close the modal
-span.onclick = function() {
+function modalClose() {
   modal.style.display = "none";
   codetext.style.display = 'none'
   downloadItemsList.style.display = 'none'
   uploadItemsForm.style.display = 'none'
-  downloadItemsList.innerHTML = '<p>Files that can be downloaded:</p>'
+  downloadItemsList.innerHTML = '<p>Files that can be downloaded:</p><div id="items-files"></div>'
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modalClose()
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
   if (event.target == modal) {
-    modal.style.display = "none";
-    codetext.style.display = 'none'
-    downloadItemsList.style.display = 'none'
-    uploadItemsForm.style.display = 'none'
-    downloadItemsList.innerHTML = '<p>Files that can be downloaded:</p>'
+    modalClose()
   }
-} 
+}

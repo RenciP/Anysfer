@@ -27,7 +27,7 @@
         </div>
         <div class="row">
             <div class="col-sm-1">
-                <input type="text" placeholder="4N9SF3R" class="form-control-lg" id="passcode">
+                <input type="text" placeholder="4N9SF3R" class="form-control-lg" id="passcode" maxlength="7">
             </div>
         </div>
         <div class="row">
@@ -53,19 +53,22 @@
             <!-- Modal content -->
             <div class="modal-content">
             <span class="close">&times;</span>
-            <p id="codetext" style="display: none;">Your code for downloading the file is <span id="modal-code" style="font-weight: bold;"></span></p>
             <div id="download-items-list" style="display: none">
                 <p>Files that can be downloaded:</p>
-                <p id="items-files"></p>
+                <div id="items-files"></div>
             </div>
             <div id="upload-items-form" style="display: none">
                 <!-- Forma za upload unutar modala -->
                 <div class="form-row">
                     <form id="uploadForm">
-                        <input type="text" placeholder="Name" class="form-control-md" name="name"><br>
-                        <input class="btn btn-secondary" type="file" name="filesForUpload" id="data-input" multiple />
+                        <p>Upload your files, type in the name, short comment and press upload to get the code!</p>
+                        <input type="text" placeholder="Name (up to 12 characters)" class="form-control-md" name="name-of-upload" maxlength="12" id="upload-name"><br>
+                        <textarea style="resize: none;" class="form-control" id="upload-comment" 
+                        rows="3" placeholder="Short comment (280 characters maximum)" maxlength="280" name="comment-of-upload"></textarea>
+                        <input class="btn btn-secondary" type="file" name="filesForUpload" id="data-input" multiple /><br>
                         <input class="btn btn-primary" type="submit" value="Upload" name="submit">
                         </form>
+                        <p id="codetext" style="display: none;">Your code for downloading the file is <span id="modal-code" style="font-weight: bold;"></span></p>
                 </div>
             </div>
             </div>

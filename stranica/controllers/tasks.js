@@ -34,6 +34,8 @@ const fileUploading = async (req, res) => {
         }
     })
 
+    
+
     upload(req, res, (err) => {
         if(err){
             console.log(err)
