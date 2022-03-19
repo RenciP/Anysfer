@@ -54,6 +54,10 @@
             <div class="modal-content">
             <span class="close">&times;</span>
             <div id="download-items-list" style="display: none">
+                Name<br>
+                <input id="download-name" class="form-control" type="text" value="" readonly><br>
+                Comment<br>
+                <input id="download-comment" class="form-control" type="text" value="" readonly><br>
                 <p>Files that can be downloaded:</p>
                 <div id="items-files"></div>
             </div>
@@ -68,6 +72,7 @@
                         <input class="btn btn-secondary" type="file" name="filesForUpload" id="data-input" multiple /><br>
                         <input class="btn btn-primary" type="submit" value="Upload" name="submit">
                         </form>
+                        <p id="upload-error-msg"></p>
                         <p id="codetext" style="display: none;">Your code for downloading the file is <span id="modal-code" style="font-weight: bold;"></span></p>
                 </div>
             </div>
@@ -77,6 +82,7 @@
     </div>
     
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./elements.js"></script>
     <script src="./frontend.js"></script>
 </body>
 </html>

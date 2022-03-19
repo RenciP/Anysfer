@@ -1,21 +1,6 @@
 const uploadUrl = '/api/upload'
 const downloadUrl = '/api/download'
 
-var uploadName = document.getElementById('upload-name')
-var uploadComment = document.getElementById('upload-comment')
-var uploadItemsForm = document.getElementById('upload-items-form')
-var downloadItemsList = document.getElementById('download-items-list')
-var codetext = document.getElementById('codetext')
-var modal = document.getElementById("myModal");
-var span = document.getElementsByClassName("close")[0];
-var modalCode = document.getElementById('modal-code')
-var downloadErrorMessage = document.getElementById('download-error-message')
-const downloadBtnDOM = document.querySelector("#download-btn")
-const fileUploadDOM = document.querySelector('#uploadForm')
-const selectFileDOM = document.querySelector('#data-input')
-const showUploadFormBtnDOM = document.querySelector('#show-upload-form-btn')
-const passcodeDOM = document.querySelector('#passcode')
-
 showUploadFormBtnDOM.addEventListener('click', function (){
   modal.style.display = 'block'
   uploadItemsForm.style.display = 'block'
@@ -37,8 +22,23 @@ fileUploadDOM.addEventListener('submit', (e) => {
   const formData = new FormData()
   const nrOfFiles = selectFileDOM.files.length
 
+  uploadErrorMessage.innerText = ''
+
+  if(uploadName.value === ''){
+    uploadErrorMessage.innerText = 'Please type in the name of your folder.'
+    return
+  }
+
+  if(uploadComment.value === ''){
+    uploadErrorMessage.innerText = 'Please type in a short comment.'
+    return
+  }
+
+  formData.append('uploadName', uploadName.value)
+  formData.append('uploadComment', uploadComment.value)
+
   if(nrOfFiles == 0){
-    uploadItemsForm.append('Select at least one file to upload!')
+    uploadErrorMessage.innerText = 'Select at least one file to upload!'
     return
   }
 
@@ -46,8 +46,7 @@ fileUploadDOM.addEventListener('submit', (e) => {
     formData.append('filesForUpload', selectFileDOM.files[i])
   }
 
-  formData.append('uploadName', uploadName.value)
-  formData.append('uploadComment', uploadComment.value)
+  uploadErrorMessage.innerText = ''
 
   uploadFile(formData)
 
@@ -75,7 +74,15 @@ function getListOfFiles(passcode){
     modal.style.display = 'block'
     downloadItemsList.style.display = 'block'
     var itemsFiles = document.getElementById('items-files')
+    var downloadName = document.getElementById('download-name')
+    var downloadComment = document.getElementById('download-comment')
     for(const item in res.data){
+      if(typeof res.data[item] == 'object'){
+        downloadName.value = res.data[item].name
+        downloadComment.value = res.data[item].comment
+        console.log('usli u if');
+        continue
+      }
       const fileName = res.data[item].split('/')
       const breakLineEl = document.createElement('br')
       const linkElement = document.createElement('a')
@@ -107,7 +114,7 @@ function modalClose() {
   codetext.style.display = 'none'
   downloadItemsList.style.display = 'none'
   uploadItemsForm.style.display = 'none'
-  downloadItemsList.innerHTML = '<p>Files that can be downloaded:</p><div id="items-files"></div>'
+  downloadItemsList.innerHTML = 'Name<br><input id="download-name" class="form-control" type="text" value="" readonly><br>Comment<br><input id="download-comment" class="form-control" type="text" value="" readonly><br><p>Files that can be downloaded:</p><div id="items-files"></div>'
 }
 
 // When the user clicks on <span> (x), close the modal

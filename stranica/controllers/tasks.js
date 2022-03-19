@@ -6,10 +6,11 @@ const multer = require('multer')
 const archiver = require('archiver')
 const mv = require('mv')
 
-const storage = multer.diskStorage({
+const fileStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         const finalDestination = path.join(homeDir + '/uploads/' + req.password)
         console.log('Func inside multer')
+        
       cb(null, finalDestination)   //passat unutra passcode
     },
     filename: function (req, file, cb) {
@@ -17,7 +18,7 @@ const storage = multer.diskStorage({
     }
   })
   
-var upload = multer({ storage: storage }).array('filesForUpload')
+var upload = multer({ storage: fileStorage }).array('filesForUpload')
 
 
 const fileUploading = async (req, res) => {
@@ -35,16 +36,29 @@ const fileUploading = async (req, res) => {
     })
 
     
-
     upload(req, res, (err) => {
         if(err){
             console.log(err)
             res.end('An error occured')
         }
         zipFolder(passcode)
-        res.end(passcode)
-    })
-    
+        console.log('zip startao');
+        //ime je req.body.uploadName, komentar je req.body.uploadcomment
+        let fileData = {
+            name: req.body.uploadName,
+            comment: req.body.uploadComment,
+            dateOfExpiration: 'TODO'
+        }
+        const toWrite = JSON.stringify(fileData)
+        const pathToJsonFile = homeDir + '/database/' + passcode + '.json'
+        fs.writeFile(pathToJsonFile, toWrite, (err) => {
+            if(err){
+                console.log(err)
+                res.end()
+            }
+            res.end(passcode)
+        })     
+    })  
 }
 
 const getFilePath = async (req, res) => {
@@ -58,9 +72,16 @@ const getFilePath = async (req, res) => {
                     const filename = passcode + '/' + file
                     filesList.push(filename)
                 })
-                jsonstring = JSON.stringify(Object.assign({}, filesList))
-                console.log(jsonstring)
-                res.send(jsonstring)
+                fs.readFile(homeDir + '/database/' + passcode + '.json', (err, data) => {
+                    if(err){
+                        console.log(err)
+                        res.status(500).end('Something went wrong.')
+                    }
+                    const nameAndComment = JSON.parse(data)
+                    filesList.push(nameAndComment)
+                    jsonstring = JSON.stringify(Object.assign({}, filesList))
+                    res.send(jsonstring) 
+                })
             } catch (error) {
                 console.log(error)
                 res.status(400).end('You entered an incorrect code.')
@@ -93,6 +114,7 @@ const zipFolder = async (passcode) => {
     const archivePath = homeDir + '/tmp/' + passcode + '.zip'
     var output = fs.createWriteStream(archivePath);
     var archive = archiver('zip');
+    console.log('unutar zip funkcije');
     output.on('close', function () {
         console.log('archiver has been finalized and the output file descriptor has closed.')
         mv(archivePath, source_dir + 'allfiles.zip', (err) =>{

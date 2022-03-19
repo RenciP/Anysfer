@@ -1,4 +1,4 @@
--modal prozor za upis dodatnih podataka + isti takav na downloadu (ime i kratki komentar)
 -napravi tajmer
 -error handling i limiter
 -cache control
+-umjesto lokalne databaze povezat s mongodb
