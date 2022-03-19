@@ -31,8 +31,9 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12">
-               <button id="download-btn">Download <span>DWN</span></button> 
+            <div class="col-sm-12" id="download-form">
+               <button class="btn btn-primary btn-lg" id="download-btn">Download </button>
+               <p id="download-error-message"></p>
             </div>
         </div>
         <div class="row">
@@ -41,12 +42,7 @@
                 can share with anyone or just use on your other device to download the files. No sign ins, no passwords, it's just that easy!
             </p>
         </div>
-        <div class="form-row">
-            <form id="uploadForm">
-            <input type="file" name="filesForUpload" id="data-input" multiple />
-            <input type="submit" value="Upload" name="submit">
-            </form>
-        </div>
+        <button class="btn btn-primary btn-lg" id="show-upload-form-btn">Upload</button>
         <div class="row">
             <p class="bolded-letters">Upload files to get Anysfer# to share</p>
         </div>
@@ -61,6 +57,16 @@
             <div id="download-items-list" style="display: none">
                 <p>Files that can be downloaded:</p>
                 <p id="items-files"></p>
+            </div>
+            <div id="upload-items-form" style="display: none">
+                <!-- Forma za upload unutar modala -->
+                <div class="form-row">
+                    <form id="uploadForm">
+                        <input type="text" placeholder="Name" class="form-control-md" name="name"><br>
+                        <input class="btn btn-secondary" type="file" name="filesForUpload" id="data-input" multiple />
+                        <input class="btn btn-primary" type="submit" value="Upload" name="submit">
+                        </form>
+                </div>
             </div>
             </div>
         

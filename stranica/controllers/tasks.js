@@ -60,12 +60,13 @@ const getFilePath = async (req, res) => {
                 console.log(jsonstring)
                 res.send(jsonstring)
             } catch (error) {
-                console.log(error);
+                console.log(error)
+                res.status(400).end('You entered an incorrect code.')
             }
                
         })
     } catch (error) {
-        console.log(error);
+        console.log(error + 'prvi');
         
     } 
 }
@@ -91,23 +92,18 @@ const zipFolder = async (passcode) => {
     var output = fs.createWriteStream(archivePath);
     var archive = archiver('zip');
     output.on('close', function () {
-
         console.log('archiver has been finalized and the output file descriptor has closed.')
-
         mv(archivePath, source_dir + 'allfiles.zip', (err) =>{
             if(err){
                 console.log(err + 'Evo errora')
-            }
-            
+            }  
         })
-
     });
     archive.on('error', function(err){
         throw err;
     })
     archive.pipe(output)
     archive.directory(source_dir, false)
-
     archive.finalize()   
 }
 
