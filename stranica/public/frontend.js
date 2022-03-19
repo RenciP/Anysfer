@@ -69,7 +69,7 @@ function getListOfFiles(passcode){
   axios.post(downloadUrl, payload, {
     headers : {'Content-Type' : 'application/json'}
   })
-  .then((res) => {s
+  .then((res) => {
     modal.style.display = 'block'
     downloadItemsList.style.display = 'block'
     for(const item in res.data){
