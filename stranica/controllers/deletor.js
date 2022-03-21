@@ -36,7 +36,6 @@ const deleteEmptyDirs = async () =>{
     fs.readdir(path.join(homeDir + '/uploads/'), 'utf-8',(err, directories) => {
         try {
             directories.forEach((dir) =>{
-                console.log(homeDir + '/uploads/' + dir);
                 fs.readdir(homeDir + '/uploads/' + dir, function(err, files) {
                     if (err) {
                        console.log(err);

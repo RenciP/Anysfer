@@ -12,8 +12,16 @@ const maxSize = 20971520
 const fileStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         const finalDestination = path.join(homeDir + '/uploads/' + req.password)
-        
-      cb(null, finalDestination)   //passat unutra passcode
+
+        //prvi pur kad se runna napravi mapu, ostale direktno u callback
+        fs.access(finalDestination, fs.constants.F_OK, (err) => {
+            if(err){
+                fs.mkdirSync(finalDestination, {recursive: true})
+                cb(null, finalDestination)
+            }else{
+                cb(null, finalDestination)
+            }
+          })  
     },
     filename: function (req, file, cb) {
       cb(null, file.originalname)
@@ -33,13 +41,6 @@ const fileUploading = async (req, res, next) => {
     }).toLowerCase()
     
     req.password = passcode
-
-    fs.mkdir(path.join(homeDir + '/uploads/' + req.password), (err) => {
-        if(err){
-            console.log(err)
-        }
-    })
-
     
     upload(req, res, (err) => {
         if(err){
@@ -50,9 +51,7 @@ const fileUploading = async (req, res, next) => {
         zipFolder(passcode)
         //ime je req.body.uploadName, komentar je req.body.uploadcomment
         const now = new Date()
-        for(file in req.files){
-
-        }
+        
         let fileData = {
             name: req.body.uploadName,
             comment: req.body.uploadComment,
