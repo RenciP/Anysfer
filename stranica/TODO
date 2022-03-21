@@ -1,4 +1,3 @@
--napravi tajmer
--error handling i limiter
--cache control
--umjesto lokalne databaze povezat s mongodb
+-napravit novi frontend u reactu
+-dodat logger
+-istestirat
