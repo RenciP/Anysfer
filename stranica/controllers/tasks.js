@@ -7,7 +7,7 @@ const archiver = require('archiver')
 const mv = require('mv')
 const date = require('date-and-time')
 const ApiError = require('../error/ApiError')
-const maxSize = 20971520
+const maxSize = 20971520  //20 MB
 
 const fileStorage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -35,11 +35,18 @@ var upload = multer({
 
 
 const fileUploading = async (req, res, next) => {
-    const passcode = passGenerator.generate({
+    var passcode = passGenerator.generate({
         length: 7,
         numbers: true
-    }).toLowerCase()
-    
+    }).toLowerCase()    
+
+    try {
+        await isPasswordTaken(passcode)
+    } catch (error) {
+        next(ApiError.serverError('Something went wrong, please try again.'))
+        return
+    }
+ 
     req.password = passcode
     
     upload(req, res, (err) => {
@@ -141,6 +148,29 @@ const zipFolder = async (passcode) => {
     archive.pipe(output)
     archive.directory(source_dir, false)
     archive.finalize()   
+}
+
+const isPasswordTaken = (pass) => {
+    var isTaken = false
+    return new Promise(function(resolve, reject){
+        fs.readdir(path.join(homeDir + '/database/'), 'utf-8',(err, files) => {
+            try {
+                files.forEach((file) => {
+                    if(file.split('.')[0] === pass){
+                        isTaken = true
+                    }
+                })
+                if(!isTaken){
+                    resolve()
+                }else{
+                    reject()
+                }
+            } catch (error) {
+                console.log(error);
+            }  
+    })
+    })
+    
 }
 
 module.exports = {fileUploading, fileDownload, getFilePath}
