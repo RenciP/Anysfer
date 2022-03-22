@@ -1,6 +1,8 @@
 const uploadUrl = '/api/upload'
 const downloadUrl = '/api/download'
 
+//elementi definirani u ./elements.js
+
 showUploadFormBtnDOM.addEventListener('click', function (){
   modal.style.display = 'block'
   uploadItemsForm.style.display = 'block'
