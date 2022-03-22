@@ -68,8 +68,7 @@ function uploadFile(file) {
 }
 
 function getListOfFiles(passcode){
-  const payload = {"password" : passcode.toLowerCase()}
-  axios.post(downloadUrl, payload, {
+  axios.get(downloadUrl + '/' + passcode.toLowerCase(), {
     headers : {'Content-Type' : 'application/json'}
   })
   .then((res) => {

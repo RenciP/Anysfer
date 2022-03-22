@@ -1,4 +1,4 @@
--napravi tajmer
--error handling i limiter
--cache control
--umjesto lokalne databaze povezat s mongodb
+-napravit novi frontend u reactu
+-dodat logger
+-istestirat (izgleda da je nemoguce zaobic radenje prazne mape na error uploadu)
+-dodat popis mapa, svaki put kod generiranja passcoda provjerit popis mapa (jako male sanse za overwrite al svejedno)
