@@ -70,6 +70,7 @@ const fileUploading = async (req, res, next) => {
             if(err){
                 console.log(err)
                 res.end()
+                return
             }
             res.end(passcode)
         })     
@@ -110,7 +111,9 @@ const getFilePath = async (req, res, next) => {
                
         })
     } catch (error) {
-        console.log(error + 'prvi');
+        console.log(error + 'prvi')
+        next(ApiError.serverError('Something went wrong, please try again.'))
+        return
         
     } 
 }
@@ -126,6 +129,7 @@ const fileDownload = async (req, res, next) => {
         if(err){
             console.log(err);
             next(ApiError.serverError('Something went wrong'))
+            return
         }
     })
 }

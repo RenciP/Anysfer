@@ -30,6 +30,7 @@ const folderDelete = async () =>{
         }
         
     })
+    console.log('Folder delete complete');
 }
 
 const deleteEmptyDirs = async () =>{
